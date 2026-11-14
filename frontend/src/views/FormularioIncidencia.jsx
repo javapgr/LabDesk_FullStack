@@ -1,4 +1,9 @@
-export default function FormularioIncidencia({ form, editando, cambiar, guardar, cancelar }) {
+export default function FormularioIncidencia({
+  form, editando, cambiar, guardar, cancelar, laboratorios = []
+}) {
+  const aulas = laboratorios.filter(l => l.activo)
+  // Solo se listan los laboratorios activos de la base de datos.
+  const aulaActualEnLista = aulas.some(l => l.nombre === form.aula)
   return (
     <div className="modal-fondo" role="presentation">
       <section className="modal-formulario" role="dialog" aria-modal="true"
@@ -16,8 +21,17 @@ export default function FormularioIncidencia({ form, editando, cambiar, guardar,
           <label>Descripción<textarea required name="descripcion" rows="4"
             value={form.descripcion} onChange={cambiar}
             placeholder="Describe el problema..." /></label>
-          <label>Aula<input required maxLength="100" name="aula"
-            value={form.aula} onChange={cambiar} placeholder="Laboratorio 1" /></label>
+          <label>Aula<select required name="aula"
+            value={form.aula} onChange={cambiar}>
+            {!aulaActualEnLista && (
+              <option value={form.aula}>{form.aula || 'Selecciona un aula'}</option>
+            )}
+            {aulas.map(l => (
+              <option key={l.id} value={l.nombre}>
+                {l.nombre}{l.ubicacion ? ` — ${l.ubicacion}` : ''}
+              </option>
+            ))}
+          </select></label>
           <label>Categoría<select name="categoria" value={form.categoria} onChange={cambiar}>
             <option value="hardware">Hardware</option>
             <option value="software">Software</option>

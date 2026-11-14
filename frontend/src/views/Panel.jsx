@@ -7,7 +7,7 @@ import Configuracion from './Configuracion.jsx'
 
 export default function Panel({ usuario, onSalir }) {
   const {
-    datos, form, editando, busqueda, setBusqueda,
+    datos, laboratorios, form, editando, busqueda, setBusqueda,
     filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
     error, mostrarFormulario, filtrados, pendientes, resueltos, proceso,
     prioridadAlta, hardware, software, red, maxEstado, totalCategorias,
@@ -17,6 +17,7 @@ export default function Panel({ usuario, onSalir }) {
   } = useIncidencias()
   const { vista, navegar } = useNavegacion()
 
+  // laboratorios se obtiene de la API y baja hasta el formulario de incidencia.
   return (
     <Layout vista={vista} onNavegar={navegar} error={error}
       usuario={usuario} onSalir={onSalir}>
@@ -41,7 +42,7 @@ export default function Panel({ usuario, onSalir }) {
           abrirNueva={abrirNueva}
           mostrarFormulario={mostrarFormulario}
           form={form} cambiar={cambiar} guardar={guardar} cancelar={cancelar}
-          editando={editando}
+          editando={editando} laboratorios={laboratorios}
         />
       )}
       {vista === 'configuracion' && <Configuracion />}

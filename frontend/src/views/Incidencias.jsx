@@ -1,10 +1,12 @@
 import FormularioIncidencia from './FormularioIncidencia.jsx'
 
+// La lista de aulas viene de la tabla Laboratorio (API /api/laboratorios/).
 export default function Incidencias({
   filtrados, busqueda, setBusqueda,
   filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
   actualizarEstado, editar, eliminar, abrirNueva,
-  mostrarFormulario, form, cambiar, guardar, cancelar, editando, exportarCsv
+  mostrarFormulario, form, cambiar, guardar, cancelar, editando, exportarCsv,
+  laboratorios
 }) {
   return (
     <>
@@ -64,7 +66,7 @@ export default function Incidencias({
       </div>
       {mostrarFormulario && <FormularioIncidencia
         form={form} editando={editando} cambiar={cambiar}
-        guardar={guardar} cancelar={cancelar} />}
+        guardar={guardar} cancelar={cancelar} laboratorios={laboratorios} />}
     </>
   )
 }

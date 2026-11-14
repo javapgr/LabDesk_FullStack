@@ -15,7 +15,8 @@ function iniciales(nombre = '') {
 
 export default function Layout({ vista, onNavegar, error, usuario, onSalir, children }) {
   const [menuAbierto, setMenuAbierto] = useState(false)
-  const nombre = usuario?.nombre || usuario?.username || 'Usuario'
+  const nombre = (usuario?.nombre || usuario?.username || 'Usuario')
+    .replace(/\s+LabDesk\b/gi, '').trim() || 'Usuario'
 
   function navegar(destino) {
     onNavegar(destino)

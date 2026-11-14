@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Incidencia
-from .serializers import IncidenciaSerializer
+from .models import Incidencia, Laboratorio
+from .serializers import IncidenciaSerializer, LaboratorioSerializer
 
 
 def datos_usuario(usuario):
@@ -21,6 +21,12 @@ def datos_usuario(usuario):
 class IncidenciaViewSet(viewsets.ModelViewSet):
     queryset = Incidencia.objects.all().order_by('-creado_en')
     serializer_class = IncidenciaSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class LaboratorioViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Laboratorio.objects.all()
+    serializer_class = LaboratorioSerializer
     permission_classes = [IsAuthenticated]
 
 

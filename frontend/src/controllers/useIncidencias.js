@@ -3,14 +3,16 @@ import {
   listarIncidencias, crearIncidencia, actualizarIncidencia,
   cambiarEstadoIncidencia, eliminarIncidencia
 } from '../services/incidenciasApi.js'
+import { listarLaboratorios } from '../services/laboratoriosApi.js'
 
 const vacio = {
-  titulo: '', descripcion: '', aula: 'Sin asignar', categoria: 'hardware',
+  titulo: '', descripcion: '', aula: '', categoria: 'hardware',
   prioridad: 'media', estado: 'pendiente'
 }
 
 export function useIncidencias() {
   const [datos, setDatos] = useState([])
+  const [laboratorios, setLaboratorios] = useState([])
   const [form, setForm] = useState(vacio)
   const [editando, setEditando] = useState(null)
   const [busqueda, setBusqueda] = useState('')
@@ -26,11 +28,21 @@ export function useIncidencias() {
     } catch (e) { setError(e.message) }
   }
 
-  useEffect(() => { cargar() }, [])
+  async function cargarLaboratorios() {
+    try {
+      setLaboratorios(await listarLaboratorios())
+    } catch (e) { setError(e.message) }
+  }
+
+  useEffect(() => { cargar(); cargarLaboratorios() }, [])
+
+  function aulaPorDefecto() {
+    return laboratorios.length ? laboratorios[0].nombre : 'Sin asignar'
+  }
 
   function abrirNueva() {
     setEditando(null)
-    setForm({ ...vacio })
+    setForm({ ...vacio, aula: aulaPorDefecto() })
     setMostrarFormulario(true)
   }
 
@@ -52,7 +64,7 @@ export function useIncidencias() {
 
   function cancelar() {
     setEditando(null)
-    setForm({ ...vacio })
+    setForm({ ...vacio, aula: aulaPorDefecto() })
     setMostrarFormulario(false)
   }
 
@@ -64,7 +76,7 @@ export function useIncidencias() {
       item.id, item.titulo, item.descripcion, item.aula, item.categoria,
       item.prioridad, item.estado, item.creado_en
     ].map(escapar).join(separador))
-    const csv = `\uFEFFsep=${separador}\r\n${[encabezados.join(separador), ...filas].join('\r\n')}`
+    const csv = `\uFEFF${[encabezados.join(separador), ...filas].join('\r\n')}`
     const enlace = document.createElement('a')
     enlace.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }))
     enlace.download = 'incidencias.csv'
@@ -116,7 +128,7 @@ export function useIncidencias() {
   const porcentajeSoftware = totalCategorias ? software / totalCategorias * 100 : 0
 
   return {
-    datos, form, editando, busqueda, setBusqueda, filtroEstado, setFiltroEstado,
+    datos, laboratorios, form, editando, busqueda, setBusqueda, filtroEstado, setFiltroEstado,
     filtroPrioridad, setFiltroPrioridad, error, mostrarFormulario,
     filtrados, pendientes, resueltos, proceso, prioridadAlta, hardware, software, red,
     maxEstado, totalCategorias, porcentajeHardware, porcentajeSoftware,
