@@ -4,7 +4,7 @@
 html, body, #root { height: 100%; }
 body { margin: 0; min-width: 320px; overflow: hidden; }
 button, input, textarea, select { font: inherit; }
-button { cursor: pointer; border: 1px solid #d8e0ea; border-radius: 9px;
+button { cursor: pointer; border: 1px solid #d8e0ea; border-radius: 0;
   background: white; padding: 10px 13px; color: #24324a;
   transition: .2s ease; }
 button:hover { filter: brightness(.96); }
@@ -54,6 +54,9 @@ button:hover { filter: brightness(.96); }
   gap: 12px; margin: 18px 0; }
 .kpi, .panel { background: white; border: 1px solid #e2e8f0; border-radius: 16px;
   box-shadow: 0 4px 14px #1e293b0a; }
+.encabezado, .kpi, .panel, .incidencia, .barra-ayuda, .modal-formulario {
+  border-radius: 0;
+}
 .kpi { padding: 18px 20px; }
 .kpi strong { display: block; font-size: 26px; color: #1d4ed8; }
 .kpi span { color: #64748b; font-size: 13px; font-weight: 600; }
@@ -112,7 +115,7 @@ h2 { margin: 0 0 18px; font-size: 17px; color: #172033; }
 form { display: grid; gap: 13px; }
 label { display: grid; gap: 7px; font-size: 13px; font-weight: bold; color: #34425a; }
 input, textarea, select { width: 100%; padding: 10px; border: 1px solid #cbd5e1;
-  border-radius: 9px; background: #f8fafc; color: #1c344a; }
+  border-radius: 0; background: #f8fafc; color: #1c344a; }
 input:focus, textarea:focus, select:focus { outline: none; border-color: #cbd5e1; }
 .principal { background: #2563eb; color: white; border: none; font-weight: bold; }
 .principal:hover { background: #1d4ed8; filter: none; }
@@ -139,13 +142,13 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #cbd5e1
 .item-acciones select { flex: 1; }
 .peligro { color: #a52424; }
 .sin-datos { text-align: center; padding: 20px; }
-.configuracion { max-width: 760px; }
+.configuracion { max-width: 760px; margin: 0 auto; }
 .configuracion-cabecera { display: flex; justify-content: space-between; gap: 20px;
   align-items: flex-start; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
 .configuracion-cabecera h2 { margin-bottom: 7px; }
 .configuracion-cabecera p { margin: 0; color: #64748b; font-size: 13px; }
 .api-config { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; white-space: nowrap; }
-.configuracion-datos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+.configuracion-datos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
   margin-top: 20px; }
 .configuracion-datos div { display: grid; gap: 6px; padding: 14px; border-radius: 10px;
   background: #f8fafc; }
