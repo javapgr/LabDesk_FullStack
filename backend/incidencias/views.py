@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -57,3 +58,30 @@ def cerrar_sesion(request):
 @permission_classes([IsAuthenticated])
 def perfil(request):
     return Response(datos_usuario(request.user))
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def respaldo(request):
+    incidencias = IncidenciaSerializer(
+        Incidencia.objects.all().order_by('id'), many=True
+    ).data
+    laboratorios = LaboratorioSerializer(
+        Laboratorio.objects.all(), many=True
+    ).data
+    datos = {
+        'generado_en': timezone.now().isoformat(),
+        'generado_por': request.user.username,
+        'totales': {
+            'incidencias': len(incidencias),
+            'laboratorios': len(laboratorios),
+        },
+        'laboratorios': laboratorios,
+        'incidencias': incidencias,
+    }
+    respuesta = Response(datos)
+    fecha = timezone.localdate().isoformat()
+    respuesta['Content-Disposition'] = (
+        f'attachment; filename="labdesk-respaldo-{fecha}.json"'
+    )
+    return respuesta

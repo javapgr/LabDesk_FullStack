@@ -119,10 +119,13 @@ export function useIncidencias() {
   const resueltos = datos.filter(x => x.estado === 'resuelto').length
   const proceso = datos.filter(x => x.estado === 'en_proceso').length
   const prioridadAlta = datos.filter(x => x.prioridad === 'alta').length
+  const prioridadMedia = datos.filter(x => x.prioridad === 'media').length
+  const prioridadBaja = datos.filter(x => x.prioridad === 'baja').length
   const hardware = datos.filter(x => x.categoria === 'hardware').length
   const software = datos.filter(x => x.categoria === 'software').length
   const red = datos.filter(x => x.categoria === 'red').length
   const maxEstado = Math.max(pendientes, proceso, resueltos, 1)
+  const maxPrioridad = Math.max(prioridadAlta, prioridadMedia, prioridadBaja, 1)
   const totalCategorias = hardware + software + red
   const porcentajeHardware = totalCategorias ? hardware / totalCategorias * 100 : 0
   const porcentajeSoftware = totalCategorias ? software / totalCategorias * 100 : 0
@@ -130,8 +133,9 @@ export function useIncidencias() {
   return {
     datos, laboratorios, form, editando, busqueda, setBusqueda, filtroEstado, setFiltroEstado,
     filtroPrioridad, setFiltroPrioridad, error, mostrarFormulario,
-    filtrados, pendientes, resueltos, proceso, prioridadAlta, hardware, software, red,
-    maxEstado, totalCategorias, porcentajeHardware, porcentajeSoftware,
+    filtrados, pendientes, resueltos, proceso, prioridadAlta, prioridadMedia, prioridadBaja,
+    hardware, software, red, maxEstado, maxPrioridad, totalCategorias,
+    porcentajeHardware, porcentajeSoftware,
     abrirNueva, cambiar, guardar, editar, cancelar, actualizarEstado, eliminar,
     exportarCsv
   }

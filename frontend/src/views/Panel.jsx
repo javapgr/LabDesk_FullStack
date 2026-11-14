@@ -10,7 +10,8 @@ export default function Panel({ usuario, onSalir }) {
     datos, laboratorios, form, editando, busqueda, setBusqueda,
     filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
     error, mostrarFormulario, filtrados, pendientes, resueltos, proceso,
-    prioridadAlta, hardware, software, red, maxEstado, totalCategorias,
+    prioridadAlta, prioridadMedia, prioridadBaja, hardware, software, red,
+    maxEstado, maxPrioridad, totalCategorias,
     porcentajeHardware, porcentajeSoftware,
     abrirNueva, cambiar, guardar, editar, cancelar, actualizarEstado, eliminar,
     exportarCsv
@@ -25,7 +26,8 @@ export default function Panel({ usuario, onSalir }) {
         <Resumen
           datos={datos}
           pendientes={pendientes} proceso={proceso} resueltos={resueltos}
-          prioridadAlta={prioridadAlta}
+          prioridadAlta={prioridadAlta} prioridadMedia={prioridadMedia}
+          prioridadBaja={prioridadBaja} maxPrioridad={maxPrioridad}
           hardware={hardware} software={software} red={red}
           maxEstado={maxEstado} totalCategorias={totalCategorias}
           porcentajeHardware={porcentajeHardware} porcentajeSoftware={porcentajeSoftware}
@@ -45,7 +47,9 @@ export default function Panel({ usuario, onSalir }) {
           editando={editando} laboratorios={laboratorios}
         />
       )}
-      {vista === 'configuracion' && <Configuracion />}
+      {vista === 'configuracion' && (
+        <Configuracion usuario={usuario} laboratorios={laboratorios} />
+      )}
     </Layout>
   )
 }

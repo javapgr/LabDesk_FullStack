@@ -1,6 +1,6 @@
 export default function Resumen({
   datos, pendientes, proceso, resueltos,
-  prioridadAlta,
+  prioridadAlta, prioridadMedia, prioridadBaja, maxPrioridad,
   hardware, software, red, maxEstado, totalCategorias,
   porcentajeHardware, porcentajeSoftware
 }) {
@@ -12,6 +12,8 @@ export default function Resumen({
         <div className="kpi"><strong>{proceso}</strong><span>En proceso</span></div>
         <div className="kpi"><strong>{resueltos}</strong><span>Resueltas</span></div>
         <div className="kpi"><strong>{prioridadAlta}</strong><span>Prioridad alta</span></div>
+        <div className="kpi"><strong>{prioridadMedia}</strong><span>Prioridad media</span></div>
+        <div className="kpi"><strong>{prioridadBaja}</strong><span>Prioridad baja</span></div>
       </section>
 
       <section className="graficos">
@@ -47,6 +49,24 @@ export default function Resumen({
               <span><i className="punto software" />Software <strong>{software}</strong></span>
               <span><i className="punto red" />Red <strong>{red}</strong></span>
             </div>
+          </div>
+        </div>
+        <div className="grafico panel">
+          <div className="grafico-cabecera"><h2>Incidencias por prioridad</h2>
+            <span>Datos actuales</span></div>
+          <div className="barras">
+            <div className="barra-fila"><span>Alta</span>
+              <div className="barra-fondo"><i className="barra alta"
+                style={{ width: `${prioridadAlta / maxPrioridad * 100}%` }} /></div>
+              <strong>{prioridadAlta}</strong></div>
+            <div className="barra-fila"><span>Media</span>
+              <div className="barra-fondo"><i className="barra media"
+                style={{ width: `${prioridadMedia / maxPrioridad * 100}%` }} /></div>
+              <strong>{prioridadMedia}</strong></div>
+            <div className="barra-fila"><span>Baja</span>
+              <div className="barra-fondo"><i className="barra baja"
+                style={{ width: `${prioridadBaja / maxPrioridad * 100}%` }} /></div>
+              <strong>{prioridadBaja}</strong></div>
           </div>
         </div>
       </section>

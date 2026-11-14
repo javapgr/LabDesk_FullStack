@@ -80,6 +80,9 @@ button:hover { filter: brightness(.96); }
 .barra.pendiente { background: #f59e0b; }
 .barra.proceso { background: #3b82f6; }
 .barra.resuelto { background: #22c55e; }
+.barra.alta { background: #ef4444; }
+.barra.media { background: #f59e0b; }
+.barra.baja { background: #22c55e; }
 .barra.hardware { background: #8b5cf6; }
 .barra.software { background: #ec4899; }
 .barra.red { background: #06b6d4; }
@@ -143,7 +146,9 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #cbd5e1
 .media { background: #fef3c7; color: #92400e; }
 .baja { background: #dcfce7; color: #166534; }
 .item-acciones { justify-content: flex-start; margin-top: 14px; }
-.item-acciones select { flex: 1; }
+.item-acciones select { flex: 0 1 180px; width: 180px; padding: 8px;
+  font-size: 13px; }
+.item-acciones button:first-of-type { margin-left: auto; }
 .peligro { color: #a52424; }
 .sin-datos { text-align: center; padding: 20px; }
 .configuracion { max-width: 760px; margin: 0 auto; }
@@ -158,6 +163,17 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #cbd5e1
   background: #f8fafc; }
 .configuracion-datos span { color: #64748b; font-size: 12px; }
 .configuracion-datos strong { color: #172033; font-size: 14px; }
+.configuracion-subtitulo { margin: 26px 0 10px; font-size: 14px; color: #334155; }
+.configuracion-texto { margin: 0; color: #64748b; font-size: 13px; line-height: 1.5; }
+.configuracion-nota { margin: 10px 0 0; color: #64748b; font-size: 12px; }
+.configuracion-error-texto { color: #b91c1c; }
+.configuracion-acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.configuracion-acciones button { padding: 10px 14px; }
+.configuracion-acciones button:disabled { opacity: .7; cursor: default; }
+.configuracion-ok { margin-top: 12px; padding: 10px 12px; border: 1px solid #a7f3d0;
+  border-radius: 9px; background: #ecfdf5; color: #065f46; font-size: 13px; }
+.api-ok { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
+.api-error { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
 footer { padding: 24px 0 3px; text-align: center; color: #8391a0; font-size: 12px; }
 .login-pantalla { display: grid; place-items: center; min-height: 100vh; padding: 24px;
   background: #172554; }

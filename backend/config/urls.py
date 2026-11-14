@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from incidencias.views import (
-    IncidenciaViewSet, LaboratorioViewSet, cerrar_sesion, iniciar_sesion, perfil
+    IncidenciaViewSet, LaboratorioViewSet, cerrar_sesion, iniciar_sesion, perfil,
+    respaldo
 )
 
 router = DefaultRouter()
@@ -14,5 +15,6 @@ urlpatterns = [
     path('api/auth/login/', iniciar_sesion, name='login'),
     path('api/auth/logout/', cerrar_sesion, name='logout'),
     path('api/auth/me/', perfil, name='perfil'),
+    path('api/respaldo/', respaldo, name='respaldo'),
     path('api/', include(router.urls)),
 ]

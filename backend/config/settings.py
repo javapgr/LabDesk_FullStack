@@ -72,3 +72,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5174',
     'http://127.0.0.1:5174',
 ]
+
+# Para que el navegador pueda leer el nombre del archivo del respaldo.
+CORS_EXPOSE_HEADERS = ['Content-Disposition']
