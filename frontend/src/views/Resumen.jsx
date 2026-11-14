@@ -1,5 +1,6 @@
 export default function Resumen({
   datos, pendientes, proceso, resueltos,
+  prioridadAlta,
   hardware, software, red, maxEstado, totalCategorias,
   porcentajeHardware, porcentajeSoftware
 }) {
@@ -10,6 +11,7 @@ export default function Resumen({
         <div className="kpi"><strong>{pendientes}</strong><span>Pendientes</span></div>
         <div className="kpi"><strong>{proceso}</strong><span>En proceso</span></div>
         <div className="kpi"><strong>{resueltos}</strong><span>Resueltas</span></div>
+        <div className="kpi"><strong>{prioridadAlta}</strong><span>Prioridad alta</span></div>
       </section>
 
       <section className="graficos">

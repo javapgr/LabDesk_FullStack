@@ -19,6 +19,7 @@ class Incidencia(models.Model):
 
     titulo = models.CharField(max_length=120)
     descripcion = models.TextField()
+    aula = models.CharField(max_length=100, default='Sin asignar')
     categoria = models.CharField(
         max_length=20, choices=CATEGORIAS, default='hardware'
     )

@@ -5,7 +5,7 @@ import {
 } from '../services/incidenciasApi.js'
 
 const vacio = {
-  titulo: '', descripcion: '', categoria: 'hardware',
+  titulo: '', descripcion: '', aula: 'Sin asignar', categoria: 'hardware',
   prioridad: 'media', estado: 'pendiente'
 }
 
@@ -43,6 +43,7 @@ export function useIncidencias() {
     setEditando(item.id)
     setForm({
       titulo: item.titulo, descripcion: item.descripcion,
+      aula: item.aula,
       categoria: item.categoria, prioridad: item.prioridad,
       estado: item.estado
     })
@@ -53,6 +54,22 @@ export function useIncidencias() {
     setEditando(null)
     setForm({ ...vacio })
     setMostrarFormulario(false)
+  }
+
+  function exportarCsv() {
+    const separador = ';'
+    const encabezados = ['ID', 'Título', 'Descripción', 'Aula', 'Categoría', 'Prioridad', 'Estado', 'Creado en']
+    const escapar = valor => `"${String(valor ?? '').replaceAll('"', '""')}"`
+    const filas = filtrados.map(item => [
+      item.id, item.titulo, item.descripcion, item.aula, item.categoria,
+      item.prioridad, item.estado, item.creado_en
+    ].map(escapar).join(separador))
+    const csv = `\uFEFFsep=${separador}\r\n${[encabezados.join(separador), ...filas].join('\r\n')}`
+    const enlace = document.createElement('a')
+    enlace.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }))
+    enlace.download = 'incidencias.csv'
+    enlace.click()
+    URL.revokeObjectURL(enlace.href)
   }
 
   async function guardar(e) {
@@ -89,6 +106,7 @@ export function useIncidencias() {
   const pendientes = datos.filter(x => x.estado === 'pendiente').length
   const resueltos = datos.filter(x => x.estado === 'resuelto').length
   const proceso = datos.filter(x => x.estado === 'en_proceso').length
+  const prioridadAlta = datos.filter(x => x.prioridad === 'alta').length
   const hardware = datos.filter(x => x.categoria === 'hardware').length
   const software = datos.filter(x => x.categoria === 'software').length
   const red = datos.filter(x => x.categoria === 'red').length
@@ -100,8 +118,9 @@ export function useIncidencias() {
   return {
     datos, form, editando, busqueda, setBusqueda, filtroEstado, setFiltroEstado,
     filtroPrioridad, setFiltroPrioridad, error, mostrarFormulario,
-    filtrados, pendientes, resueltos, proceso, hardware, software, red,
+    filtrados, pendientes, resueltos, proceso, prioridadAlta, hardware, software, red,
     maxEstado, totalCategorias, porcentajeHardware, porcentajeSoftware,
-    abrirNueva, cambiar, guardar, editar, cancelar, actualizarEstado, eliminar
+    abrirNueva, cambiar, guardar, editar, cancelar, actualizarEstado, eliminar,
+    exportarCsv
   }
 }

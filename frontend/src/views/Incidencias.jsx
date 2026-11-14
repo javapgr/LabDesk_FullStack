@@ -4,11 +4,14 @@ export default function Incidencias({
   filtrados, busqueda, setBusqueda,
   filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
   actualizarEstado, editar, eliminar, abrirNueva,
-  mostrarFormulario, form, cambiar, guardar, cancelar, editando
+  mostrarFormulario, form, cambiar, guardar, cancelar, editando, exportarCsv
 }) {
   return (
     <>
       <div className="acciones-vista">
+        <button type="button" onClick={exportarCsv}>
+          Exportar CSV
+        </button>
         <button className="principal" type="button"
           onClick={abrirNueva}>
           Nueva incidencia
@@ -42,6 +45,7 @@ export default function Incidencias({
                   <span className={`prioridad ${item.prioridad}`}>{item.prioridad}</span></div>
                 <p>{item.descripcion}</p>
                 <div className="item-meta"><span>{item.categoria}</span>
+                  <span>{item.aula}</span>
                   <span>ID #{item.id}</span></div>
                 <div className="item-acciones">
                   <select aria-label="Cambiar estado" value={item.estado}

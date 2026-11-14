@@ -16,6 +16,8 @@ export default function FormularioIncidencia({ form, editando, cambiar, guardar,
           <label>Descripción<textarea required name="descripcion" rows="4"
             value={form.descripcion} onChange={cambiar}
             placeholder="Describe el problema..." /></label>
+          <label>Aula<input required maxLength="100" name="aula"
+            value={form.aula} onChange={cambiar} placeholder="Laboratorio 1" /></label>
           <label>Categoría<select name="categoria" value={form.categoria} onChange={cambiar}>
             <option value="hardware">Hardware</option>
             <option value="software">Software</option>
