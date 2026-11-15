@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function Login({ onEntrar, error }) {
+export default function Login({ onEntrar, error, onVolver }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [enviando, setEnviando] = useState(false)
@@ -20,6 +20,7 @@ export default function Login({ onEntrar, error }) {
           <img className="logo logo-login" src="/labdesk-logo.png" alt="LabDesk" />
         </div>
 
+        {onVolver && <button className="login-volver" type="button" onClick={onVolver}>← Volver al inicio</button>}
         <h1>Inicia sesión</h1>
 
         <form onSubmit={enviar}>

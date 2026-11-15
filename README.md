@@ -19,17 +19,6 @@ Sistema de gestión de incidencias de laboratorio (hardware, software, red, impr
 
 ```bash
 cd backend
-python -m venv .venv
-```
-
-Activar el entorno virtual:
-
-```bash
-# Windows PowerShell
-.\.venv\Scripts\Activate.ps1
-
-# macOS / Linux
-source .venv/bin/activate
 ```
 
 Instalar, migrar, cargar datos de demo y correr:
@@ -70,7 +59,7 @@ Inicia sesión con `tecnico` / `labdesk123`.
 
 ---
 
-## 3. Autenticación
+## 3. Autenticación (JWT)
 
 La API usa **JWT** (simplejwt). El frontend guarda `access`/`refresh` en `localStorage` y envía:
 
@@ -81,6 +70,35 @@ La API usa **JWT** (simplejwt). El frontend guarda `access`/`refresh` en `localS
 | POST | `/api/token/` | Login → access + refresh |
 | POST | `/api/token/refresh/` | Renueva el access |
 | GET | `/api/auth/me/` | Usuario del access token |
+
+### Crear tus usuarios
+
+Superusuario (para entrar a `/admin/`). El comando es interactivo: te pregunta **usuario**, **email** (puede ir vacío) y **contraseña** (la escribe dos veces):
+
+```bash
+python manage.py createsuperuser
+```
+
+```text
+Username: admin
+Email address:
+Password:
+Password (again):
+Superuser created successfully.
+```
+
+Usuario normal (para entrar al frontend). Cambia `tecnico` y `labdesk123` por los que quieras:
+
+```bash
+python manage.py shell -c "from django.contrib.auth import get_user_model; U=get_user_model(); U.objects.create_user(username='tecnico', password='labdesk123'); print('Usuario creado')"
+```
+
+Credenciales que ya existen en esta base de datos:
+
+| Usuario | Contraseña | Tipo | Acceso |
+|---|---|---|---|
+| `admin` | `labdesk123` | Superusuario | `/admin/` |
+| `tecnico` | `labdesk123` | Usuario normal | Frontend |
 
 Ejemplo:
 
