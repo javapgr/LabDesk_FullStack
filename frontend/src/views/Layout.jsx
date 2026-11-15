@@ -32,7 +32,7 @@ export default function Layout({ vista, onNavegar, error, usuario, onSalir, chil
 
       <aside id="menu-lateral" className={`barra-lateral${menuAbierto ? ' abierta' : ''}`}>
         <div className="marca">
-          <img className="logo" src="/labdesk-logo.jpg" alt="LabDesk" />
+          <img className="logo" src="/labdesk-logo.png" alt="LabDesk" />
         </div>
         <div className="perfil"><span className="avatar">{iniciales(nombre)}</span>
           <div><strong>{nombre}</strong><small>Sesión activa</small></div>

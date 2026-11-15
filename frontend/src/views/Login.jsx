@@ -17,7 +17,7 @@ export default function Login({ onEntrar, error }) {
     <main className="login-pantalla">
       <section className="login-tarjeta">
         <div className="login-marca">
-          <img className="logo logo-login" src="/labdesk-logo.jpg" alt="LabDesk" />
+          <img className="logo logo-login" src="/labdesk-logo.png" alt="LabDesk" />
         </div>
 
         <h1>Inicia sesión</h1>
