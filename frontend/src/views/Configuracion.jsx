@@ -48,11 +48,6 @@ export default function Configuracion({ usuario, laboratorios = [] }) {
 
   return (
     <section className="panel configuracion">
-      <div className="configuracion-cabecera">
-        <div><h2>Configuración del sistema</h2>
-          <p>Estado real de la API, respaldos y exportación de datos.</p></div>
-      </div>
-
       <h3 className="configuracion-subtitulo">Estado de la API</h3>
       <div className="configuracion-datos">
         <div><span>Conexión</span>

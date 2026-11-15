@@ -27,7 +27,7 @@ export default function Incidencias({
       </div>
       <div className="columnas sin-formulario">
         <section className="panel panel-incidencias">
-          <div className="cabecera-lista"><h2>Incidencias recientes</h2>
+          <div className="cabecera-lista"><h2>Registros</h2>
             <span>{filtrados.length} mostradas</span></div>
           <div className="filtros filtros-avanzados">
             <input placeholder="Buscar por título o descripción..."

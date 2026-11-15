@@ -25,3 +25,13 @@ export function formatearFecha(iso) {
     timeStyle: 'short',
   })
 }
+
+/** ISO → `YYYY-MM-DD HH:mm` en hora local (CSV / Excel). */
+export function formatearFechaCsv(iso) {
+  if (!iso) return ''
+  const fecha = new Date(iso)
+  if (Number.isNaN(fecha.getTime())) return ''
+  const pad = n => String(n).padStart(2, '0')
+  return `${fecha.getFullYear()}-${pad(fecha.getMonth() + 1)}-${pad(fecha.getDate())}` +
+    ` ${pad(fecha.getHours())}:${pad(fecha.getMinutes())}`
+}

@@ -4,7 +4,7 @@ import {
   cambiarEstadoIncidencia, eliminarIncidencia
 } from '../services/incidenciasApi.js'
 import { listarLaboratorios } from '../services/laboratoriosApi.js'
-import { datetimeLocalAIso, isoADatetimeLocal } from '../utils/fechas.js'
+import { datetimeLocalAIso, formatearFechaCsv, isoADatetimeLocal } from '../utils/fechas.js'
 import { estadoVencimiento } from '../utils/vencimiento.js'
 
 const vacio = {
@@ -118,10 +118,10 @@ export function useIncidencias() {
     const escapar = valor => `"${String(valor ?? '').replaceAll('"', '""')}"`
     const filas = lista.map(item => [
       item.id, item.titulo, item.descripcion, item.aula, item.responsable,
-      item.ubicacion, item.fecha_limite, item.categoria, item.prioridad,
-      item.estado, item.creado_en,
+      item.ubicacion, formatearFechaCsv(item.fecha_limite), item.categoria,
+      item.prioridad, item.estado, formatearFechaCsv(item.creado_en),
     ].map(escapar).join(separador))
-    return `\uFEFF${[encabezados.join(separador), ...filas].join('\r\n')}`
+    return `\uFEFF${['sep=,', encabezados.join(separador), ...filas].join('\r\n')}`
   }
 
   function exportarCsv() {
