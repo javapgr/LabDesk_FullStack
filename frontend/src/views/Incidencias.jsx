@@ -1,12 +1,15 @@
 import FormularioIncidencia from './FormularioIncidencia.jsx'
+import DetalleIncidencia from './DetalleIncidencia.jsx'
+import { formatearFecha } from '../utils/fechas.js'
+import { estadoVencimiento, etiquetaVencimiento } from '../utils/vencimiento.js'
 
-// La lista de aulas viene de la tabla Laboratorio (API /api/laboratorios/).
 export default function Incidencias({
   filtrados, busqueda, setBusqueda,
   filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
   actualizarEstado, editar, eliminar, abrirNueva,
   mostrarFormulario, form, cambiar, guardar, cancelar, editando, exportarCsv,
-  laboratorios
+  laboratorios, errorForm, guardando, cargando,
+  detalle, abrirDetalle, cerrarDetalle,
 }) {
   return (
     <>
@@ -39,34 +42,61 @@ export default function Incidencias({
               <option value="alta">Alta</option>
             </select>
           </div>
+          {cargando && <p className="sin-datos">Cargando incidencias…</p>}
           <div className="lista">
-            {filtrados.length === 0 && <p className="sin-datos">No hay incidencias.</p>}
-            {filtrados.map(item => (
-              <article className="incidencia" key={item.id}>
-                <div className="item-top"><h3>{item.titulo}</h3>
-                  <span className={`prioridad ${item.prioridad}`}>{item.prioridad}</span></div>
-                <p>{item.descripcion}</p>
-                <div className="item-meta"><span>{item.categoria}</span>
-                  <span>{item.aula}</span>
-                  <span>ID #{item.id}</span></div>
-                <div className="item-acciones">
-                  <select aria-label="Cambiar estado" value={item.estado}
-                    onChange={e => actualizarEstado(item.id, e.target.value)}>
-                    <option value="pendiente">Pendiente</option>
-                    <option value="en_proceso">En proceso</option>
-                    <option value="resuelto">Resuelto</option>
-                  </select>
-                  <button onClick={() => editar(item)}>Editar</button>
-                  <button className="peligro" onClick={() => eliminar(item.id)}>Eliminar</button>
-                </div>
-              </article>
-            ))}
+            {!cargando && filtrados.length === 0 && (
+              <p className="sin-datos">No hay incidencias.</p>
+            )}
+            {filtrados.map(item => {
+              const alerta = estadoVencimiento(item)
+              const etiqueta = etiquetaVencimiento(alerta)
+              return (
+                <article className={`incidencia${alerta ? ` alerta-${alerta}` : ''}`}
+                  key={item.id}>
+                  <div className="item-top"><h3>{item.titulo}</h3>
+                    <span className={`prioridad ${item.prioridad}`}>{item.prioridad}</span>
+                  </div>
+                  {etiqueta && (
+                    <span className={`alerta-vencimiento ${alerta}`}>{etiqueta}</span>
+                  )}
+                  <p>{item.descripcion}</p>
+                  <div className="item-meta">
+                    <span>{item.categoria}</span>
+                    <span>{item.aula}</span>
+                    <span>{item.responsable || 'Sin responsable'}</span>
+                    <span>{item.ubicacion || 'Sin ubicación'}</span>
+                    <span>Límite: {formatearFecha(item.fecha_limite)}</span>
+                    <span>ID #{item.id}</span>
+                  </div>
+                  <div className="item-acciones">
+                    <select aria-label="Cambiar estado" value={item.estado}
+                      onChange={e => actualizarEstado(item.id, e.target.value)}>
+                      <option value="pendiente">Pendiente</option>
+                      <option value="en_proceso">En proceso</option>
+                      <option value="resuelto">Resuelto</option>
+                    </select>
+                    <button type="button" onClick={() => abrirDetalle(item)}>Ver</button>
+                    <button type="button" onClick={() => editar(item)}>Editar</button>
+                    <button className="peligro" type="button"
+                      onClick={() => eliminar(item.id)}>Eliminar</button>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </section>
       </div>
       {mostrarFormulario && <FormularioIncidencia
         form={form} editando={editando} cambiar={cambiar}
-        guardar={guardar} cancelar={cancelar} laboratorios={laboratorios} />}
+        guardar={guardar} cancelar={cancelar} laboratorios={laboratorios}
+        errorForm={errorForm} guardando={guardando} />}
+      {detalle && (
+        <DetalleIncidencia
+          incidencia={detalle}
+          onCerrar={cerrarDetalle}
+          onEditar={item => { cerrarDetalle(); editar(item) }}
+        />
+      )}
     </>
   )
 }

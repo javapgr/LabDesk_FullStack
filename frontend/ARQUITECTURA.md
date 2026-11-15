@@ -2,15 +2,21 @@
 
 ```
 src/
-├── services/incidenciasApi.js      → las 5 llamadas HTTP a la API
+├── services/
+│   ├── incidenciasApi.js           → CRUD de incidencias
+│   └── comentariosApi.js           → GET/POST comentarios anidados
 ├── controllers/
-│   ├── useIncidencias.js           → estado, filtros, KPIs, acciones
+│   ├── useIncidencias.js           → estado, filtros, KPIs, vencimiento, acciones
 │   └── useNavegacion.js            → vista activa y navegación
+├── utils/
+│   ├── vencimiento.js              → estadoVencimiento (vencida/proxima)
+│   └── fechas.js                   → ISO ↔ datetime-local
 ├── views/
 │   ├── Layout.jsx                  → shell: sidebar, topbar, footer
-│   ├── Resumen.jsx                 → KPIs y gráficos
-│   ├── Incidencias.jsx             → lista y filtros
+│   ├── Resumen.jsx                 → KPIs y gráficos (incl. vencidas / % resolución)
+│   ├── Incidencias.jsx             → lista, filtros y alertas
 │   ├── FormularioIncidencia.jsx    → modal crear/editar
+│   ├── DetalleIncidencia.jsx       → detalle + historial de comentarios
 │   └── Configuracion.jsx           → información del entorno
 ├── App.jsx                         → compone controller + vista
 └── main.jsx                        → monta React en el DOM
@@ -46,6 +52,8 @@ FormularioIncidencia (submit)
 | PUT | `/api/incidencias/{id}/` | `actualizarIncidencia()` |
 | PATCH | `/api/incidencias/{id}/` | `cambiarEstadoIncidencia()` |
 | DELETE | `/api/incidencias/{id}/` | `eliminarIncidencia()` |
+| GET | `/api/incidencias/{id}/comentarios/` | `listarComentarios()` |
+| POST | `/api/incidencias/{id}/comentarios/` | `crearComentario()` |
 
 ## Nota para la defensa
 

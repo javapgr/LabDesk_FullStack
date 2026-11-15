@@ -1,8 +1,8 @@
 export default function FormularioIncidencia({
-  form, editando, cambiar, guardar, cancelar, laboratorios = []
+  form, editando, cambiar, guardar, cancelar, laboratorios = [], errorForm = '',
+  guardando = false,
 }) {
   const aulas = laboratorios.filter(l => l.activo)
-  // Solo se listan los laboratorios activos de la base de datos.
   const aulaActualEnLista = aulas.some(l => l.nombre === form.aula)
   return (
     <div className="modal-fondo" role="presentation">
@@ -16,13 +16,15 @@ export default function FormularioIncidencia({
             onClick={cancelar}>×</button>
         </div>
         <form onSubmit={guardar}>
+          {errorForm && <p className="error">{errorForm}</p>}
           <label>Título<input required maxLength="120" name="titulo"
-            value={form.titulo} onChange={cambiar} placeholder="PC no enciende" /></label>
+            value={form.titulo} onChange={cambiar} placeholder="PC no enciende"
+            disabled={guardando} /></label>
           <label>Descripción<textarea required name="descripcion" rows="4"
             value={form.descripcion} onChange={cambiar}
-            placeholder="Describe el problema..." /></label>
+            placeholder="Describe el problema..." disabled={guardando} /></label>
           <label>Aula<select required name="aula"
-            value={form.aula} onChange={cambiar}>
+            value={form.aula} onChange={cambiar} disabled={guardando}>
             {!aulaActualEnLista && (
               <option value={form.aula}>{form.aula || 'Selecciona un aula'}</option>
             )}
@@ -32,26 +34,39 @@ export default function FormularioIncidencia({
               </option>
             ))}
           </select></label>
-          <label>Categoría<select name="categoria" value={form.categoria} onChange={cambiar}>
+          <label>Responsable<input name="responsable" maxLength="100"
+            value={form.responsable} onChange={cambiar}
+            placeholder="Juan Pérez" disabled={guardando} /></label>
+          <label>Ubicación<input name="ubicacion" maxLength="120"
+            value={form.ubicacion} onChange={cambiar}
+            placeholder="Lab 3 / Puesto 12" disabled={guardando} /></label>
+          <label>Fecha límite<input type="datetime-local" name="fecha_limite"
+            value={form.fecha_limite} onChange={cambiar} disabled={guardando} /></label>
+          <label>Categoría<select name="categoria" value={form.categoria}
+            onChange={cambiar} disabled={guardando}>
             <option value="hardware">Hardware</option>
             <option value="software">Software</option>
             <option value="red">Red / Internet</option>
           </select></label>
-          <label>Prioridad<select name="prioridad" value={form.prioridad} onChange={cambiar}>
+          <label>Prioridad<select name="prioridad" value={form.prioridad}
+            onChange={cambiar} disabled={guardando}>
             <option value="baja">Baja</option>
             <option value="media">Media</option>
             <option value="alta">Alta</option>
           </select></label>
-          <label>Estado<select name="estado" value={form.estado} onChange={cambiar}>
+          <label>Estado<select name="estado" value={form.estado}
+            onChange={cambiar} disabled={guardando}>
             <option value="pendiente">Pendiente</option>
             <option value="en_proceso">En proceso</option>
             <option value="resuelto">Resuelto</option>
           </select></label>
-          <button className="principal" type="submit">
-            {editando === null ? 'Registrar' : 'Guardar cambios'}
+          <button className="principal" type="submit" disabled={guardando}>
+            {guardando
+              ? 'Guardando…'
+              : editando === null ? 'Registrar' : 'Guardar cambios'}
           </button>
-          {editando !== null && <button type="button" onClick={cancelar}>
-            Cancelar edición</button>}
+          {editando !== null && <button type="button" onClick={cancelar}
+            disabled={guardando}>Cancelar edición</button>}
         </form>
       </section>
     </div>

@@ -16,5 +16,6 @@ urlpatterns = [
     path('api/auth/logout/', cerrar_sesion, name='logout'),
     path('api/auth/me/', perfil, name='perfil'),
     path('api/respaldo/', respaldo, name='respaldo'),
+    path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
 ]

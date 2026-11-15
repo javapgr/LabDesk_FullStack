@@ -9,16 +9,16 @@ export default function Panel({ usuario, onSalir }) {
   const {
     datos, laboratorios, form, editando, busqueda, setBusqueda,
     filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
-    error, mostrarFormulario, filtrados, pendientes, resueltos, proceso,
+    error, errorForm, mostrarFormulario, cargando, guardando, detalle,
+    filtrados, pendientes, resueltos, proceso, vencidas, porcentajeResolucion,
     prioridadAlta, prioridadMedia, prioridadBaja, hardware, software, red,
     maxEstado, maxPrioridad, totalCategorias,
     porcentajeHardware, porcentajeSoftware,
     abrirNueva, cambiar, guardar, editar, cancelar, actualizarEstado, eliminar,
-    exportarCsv
+    exportarCsv, abrirDetalle, cerrarDetalle,
   } = useIncidencias()
   const { vista, navegar } = useNavegacion()
 
-  // laboratorios se obtiene de la API y baja hasta el formulario de incidencia.
   return (
     <Layout vista={vista} onNavegar={navegar} error={error}
       usuario={usuario} onSalir={onSalir}>
@@ -26,6 +26,7 @@ export default function Panel({ usuario, onSalir }) {
         <Resumen
           datos={datos}
           pendientes={pendientes} proceso={proceso} resueltos={resueltos}
+          vencidas={vencidas} porcentajeResolucion={porcentajeResolucion}
           prioridadAlta={prioridadAlta} prioridadMedia={prioridadMedia}
           prioridadBaja={prioridadBaja} maxPrioridad={maxPrioridad}
           hardware={hardware} software={software} red={red}
@@ -45,6 +46,8 @@ export default function Panel({ usuario, onSalir }) {
           mostrarFormulario={mostrarFormulario}
           form={form} cambiar={cambiar} guardar={guardar} cancelar={cancelar}
           editando={editando} laboratorios={laboratorios}
+          errorForm={errorForm} guardando={guardando} cargando={cargando}
+          detalle={detalle} abrirDetalle={abrirDetalle} cerrarDetalle={cerrarDetalle}
         />
       )}
       {vista === 'configuracion' && (
