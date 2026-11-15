@@ -9,6 +9,8 @@ export default function Panel({ usuario, onSalir }) {
   const {
     datos, laboratorios, form, editando, busqueda, setBusqueda,
     filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
+    filtroCategoria, setFiltroCategoria, filtroResponsable, setFiltroResponsable,
+    filtroAlerta, setFiltroAlerta, limpiarFiltros,
     error, errorForm, mostrarFormulario, cargando, guardando, detalle,
     filtrados, pendientes, resueltos, proceso, vencidas, porcentajeResolucion,
     prioridadAlta, prioridadMedia, prioridadBaja, hardware, software, red, impresora,
@@ -41,6 +43,10 @@ export default function Panel({ usuario, onSalir }) {
           busqueda={busqueda} setBusqueda={setBusqueda}
           filtroEstado={filtroEstado} setFiltroEstado={setFiltroEstado}
           filtroPrioridad={filtroPrioridad} setFiltroPrioridad={setFiltroPrioridad}
+          filtroCategoria={filtroCategoria} setFiltroCategoria={setFiltroCategoria}
+          filtroResponsable={filtroResponsable} setFiltroResponsable={setFiltroResponsable}
+          filtroAlerta={filtroAlerta} setFiltroAlerta={setFiltroAlerta}
+          limpiarFiltros={limpiarFiltros}
           actualizarEstado={actualizarEstado} editar={editar} eliminar={eliminar}
           exportarCsv={exportarCsv}
           abrirNueva={abrirNueva}

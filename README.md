@@ -72,23 +72,25 @@ Inicia sesión con `tecnico` / `labdesk123`.
 
 ## 3. Autenticación
 
-La API usa token. El frontend guarda el token en `localStorage` y lo envía como:
+La API usa **JWT** (simplejwt). El frontend guarda `access`/`refresh` en `localStorage` y envía:
 
-`Authorization: Token <token>`
+`Authorization: Bearer <access>`
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| POST | `/api/auth/login/` | Login → token + usuario |
-| GET | `/api/auth/me/` | Usuario del token |
-| POST | `/api/auth/logout/` | Invalida el token |
+| POST | `/api/token/` | Login → access + refresh |
+| POST | `/api/token/refresh/` | Renueva el access |
+| GET | `/api/auth/me/` | Usuario del access token |
 
 Ejemplo:
 
 ```bash
-curl -X POST http://127.0.0.1:8000/api/auth/login/ \
+curl -X POST http://127.0.0.1:8000/api/token/ \
   -H "Content-Type: application/json" \
   -d "{\"username\":\"tecnico\",\"password\":\"labdesk123\"}"
 ```
+
+Opcional: copia `backend/.env.example` a `backend/.env` para personalizar `DJANGO_SECRET_KEY`.
 
 ---
 
@@ -103,6 +105,8 @@ curl -X POST http://127.0.0.1:8000/api/auth/login/ \
 - Exportar CSV (con BOM UTF-8)
 - Iconos por categoría: hardware (PC), red (router), impresora; software sin icono
 - Laboratorios desde la API (`/api/laboratorios/`)
+
+**Nota:** el campo `aula` de cada incidencia es texto (`CharField`). La tabla `Laboratorio` es un catálogo aparte que alimenta el selector del formulario; no es ForeignKey.
 
 ---
 

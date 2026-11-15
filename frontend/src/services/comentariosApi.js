@@ -1,15 +1,13 @@
-import { obtenerToken } from './authApi.js'
+import { borrarSesion, encabezadoAuth } from './authApi.js'
 
 const API = 'http://127.0.0.1:8000/api/incidencias/'
 
-function conAutorizacion(extra = {}) {
-  const token = obtenerToken()
-  return token ? { ...extra, Authorization: `Token ${token}` } : extra
-}
-
 async function pedir(url, opciones = {}, mensajeError) {
   const respuesta = await fetch(url, opciones)
-  if (respuesta.status === 401) throw new Error('Tu sesión expiró. Vuelve a iniciar sesión.')
+  if (respuesta.status === 401) {
+    borrarSesion()
+    throw new Error('Tu sesión expiró. Vuelve a iniciar sesión.')
+  }
   if (!respuesta.ok) {
     let detalle = mensajeError
     try {
@@ -25,7 +23,7 @@ async function pedir(url, opciones = {}, mensajeError) {
 export async function listarComentarios(incidenciaId) {
   const respuesta = await pedir(
     `${API}${incidenciaId}/comentarios/`,
-    { headers: conAutorizacion() },
+    { headers: encabezadoAuth() },
     'No se pudieron cargar los comentarios',
   )
   return respuesta.json()
@@ -36,7 +34,7 @@ export async function crearComentario(incidenciaId, texto) {
     `${API}${incidenciaId}/comentarios/`,
     {
       method: 'POST',
-      headers: conAutorizacion({ 'Content-Type': 'application/json' }),
+      headers: encabezadoAuth({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ texto }),
     },
     'No se pudo guardar el comentario',

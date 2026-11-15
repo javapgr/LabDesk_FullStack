@@ -20,6 +20,9 @@ export function useIncidencias() {
   const [busqueda, setBusqueda] = useState('')
   const [filtroEstado, setFiltroEstado] = useState('todos')
   const [filtroPrioridad, setFiltroPrioridad] = useState('todas')
+  const [filtroCategoria, setFiltroCategoria] = useState('todas')
+  const [filtroResponsable, setFiltroResponsable] = useState('')
+  const [filtroAlerta, setFiltroAlerta] = useState('todas')
   const [error, setError] = useState('')
   const [errorForm, setErrorForm] = useState('')
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
@@ -106,24 +109,37 @@ export function useIncidencias() {
     }
   }
 
-  function exportarCsv() {
-    const separador = ';'
+  function generarCsv(lista = filtrados) {
+    const separador = ','
     const encabezados = [
       'ID', 'Título', 'Descripción', 'Aula', 'Responsable', 'Ubicación',
       'Fecha límite', 'Categoría', 'Prioridad', 'Estado', 'Creado en',
     ]
     const escapar = valor => `"${String(valor ?? '').replaceAll('"', '""')}"`
-    const filas = filtrados.map(item => [
+    const filas = lista.map(item => [
       item.id, item.titulo, item.descripcion, item.aula, item.responsable,
       item.ubicacion, item.fecha_limite, item.categoria, item.prioridad,
       item.estado, item.creado_en,
     ].map(escapar).join(separador))
-    const csv = `\uFEFF${[encabezados.join(separador), ...filas].join('\r\n')}`
+    return `\uFEFF${[encabezados.join(separador), ...filas].join('\r\n')}`
+  }
+
+  function exportarCsv() {
+    const csv = generarCsv(filtrados)
     const enlace = document.createElement('a')
     enlace.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }))
     enlace.download = 'incidencias.csv'
     enlace.click()
     URL.revokeObjectURL(enlace.href)
+  }
+
+  function limpiarFiltros() {
+    setBusqueda('')
+    setFiltroEstado('todos')
+    setFiltroPrioridad('todas')
+    setFiltroCategoria('todas')
+    setFiltroResponsable('')
+    setFiltroAlerta('todas')
   }
 
   async function guardar(e) {
@@ -169,9 +185,14 @@ export function useIncidencias() {
 
   const filtrados = datos.filter(item => {
     const texto = `${item.titulo} ${item.descripcion}`.toLowerCase()
+    const alerta = estadoVencimiento(item)
     return texto.includes(busqueda.toLowerCase()) &&
       (filtroEstado === 'todos' || item.estado === filtroEstado) &&
-      (filtroPrioridad === 'todas' || item.prioridad === filtroPrioridad)
+      (filtroPrioridad === 'todas' || item.prioridad === filtroPrioridad) &&
+      (filtroCategoria === 'todas' || item.categoria === filtroCategoria) &&
+      (!(filtroResponsable || '').trim() ||
+        (item.responsable || '').toLowerCase().includes(filtroResponsable.trim().toLowerCase())) &&
+      (filtroAlerta === 'todas' || alerta === filtroAlerta)
   })
   const pendientes = datos.filter(x => x.estado === 'pendiente').length
   const resueltos = datos.filter(x => x.estado === 'resuelto').length
@@ -196,13 +217,15 @@ export function useIncidencias() {
 
   return {
     datos, laboratorios, form, editando, busqueda, setBusqueda, filtroEstado, setFiltroEstado,
-    filtroPrioridad, setFiltroPrioridad, error, errorForm, mostrarFormulario,
+    filtroPrioridad, setFiltroPrioridad, filtroCategoria, setFiltroCategoria,
+    filtroResponsable, setFiltroResponsable, filtroAlerta, setFiltroAlerta,
+    error, errorForm, mostrarFormulario,
     cargando, guardando, detalle,
     filtrados, pendientes, resueltos, proceso, vencidas, porcentajeResolucion,
     prioridadAlta, prioridadMedia, prioridadBaja,
     hardware, software, red, impresora, maxEstado, maxPrioridad, totalCategorias,
     porcentajeHardware, porcentajeSoftware, porcentajeRed,
     abrirNueva, cambiar, guardar, editar, cancelar, actualizarEstado, eliminar,
-    exportarCsv, abrirDetalle, cerrarDetalle,
+    exportarCsv, generarCsv, limpiarFiltros, abrirDetalle, cerrarDetalle,
   }
 }

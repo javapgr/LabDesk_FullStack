@@ -1,9 +1,37 @@
+import {
+  Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer,
+  Tooltip, XAxis, YAxis,
+} from 'recharts'
+
+const COLORES_ESTADO = {
+  Pendientes: '#f59e0b',
+  'En proceso': '#3b82f6',
+  Resueltas: '#22c55e',
+}
+
+const COLORES_PRIORIDAD = {
+  Alta: '#ef4444',
+  Media: '#f59e0b',
+  Baja: '#22c55e',
+}
+
 export default function Resumen({
   datos, pendientes, proceso, resueltos, vencidas, porcentajeResolucion,
-  prioridadAlta, prioridadMedia, prioridadBaja, maxPrioridad,
-  hardware, software, red, impresora, maxEstado, totalCategorias,
+  prioridadAlta, prioridadMedia, prioridadBaja,
+  hardware, software, red, impresora, totalCategorias,
   porcentajeHardware, porcentajeSoftware, porcentajeRed,
 }) {
+  const datosEstado = [
+    { nombre: 'Pendientes', valor: pendientes },
+    { nombre: 'En proceso', valor: proceso },
+    { nombre: 'Resueltas', valor: resueltos },
+  ]
+  const datosPrioridad = [
+    { nombre: 'Alta', valor: prioridadAlta },
+    { nombre: 'Media', valor: prioridadMedia },
+    { nombre: 'Baja', valor: prioridadBaja },
+  ]
+
   return (
     <>
       <section className="estadisticas">
@@ -21,20 +49,21 @@ export default function Resumen({
       <section className="graficos">
         <div className="grafico panel">
           <div className="grafico-cabecera"><h2>Incidencias por estado</h2>
-            <span>Datos actuales</span></div>
-          <div className="barras">
-            <div className="barra-fila"><span>Pendientes</span>
-              <div className="barra-fondo"><i className="barra pendiente"
-                style={{ width: `${pendientes / maxEstado * 100}%` }} /></div>
-              <strong>{pendientes}</strong></div>
-            <div className="barra-fila"><span>En proceso</span>
-              <div className="barra-fondo"><i className="barra proceso"
-                style={{ width: `${proceso / maxEstado * 100}%` }} /></div>
-              <strong>{proceso}</strong></div>
-            <div className="barra-fila"><span>Resueltas</span>
-              <div className="barra-fondo"><i className="barra resuelto"
-                style={{ width: `${resueltos / maxEstado * 100}%` }} /></div>
-              <strong>{resueltos}</strong></div>
+            <span>Datos de la API</span></div>
+          <div className="rechart-caja">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={datosEstado}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--borde)" />
+                <XAxis dataKey="nombre" stroke="var(--texto-suave)" />
+                <YAxis allowDecimals={false} stroke="var(--texto-suave)" />
+                <Tooltip />
+                <Bar dataKey="valor" radius={[4, 4, 0, 0]}>
+                  {datosEstado.map(item => (
+                    <Cell key={item.nombre} fill={COLORES_ESTADO[item.nombre]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
         <div className="grafico panel">
@@ -43,7 +72,7 @@ export default function Resumen({
           <div className="pastel-contenido">
             <div className="pastel" style={{ background: totalCategorias
               ? `conic-gradient(#8b5cf6 0 ${porcentajeHardware}%, #ec4899 ${porcentajeHardware}% ${porcentajeHardware + porcentajeSoftware}%, #06b6d4 ${porcentajeHardware + porcentajeSoftware}% ${porcentajeHardware + porcentajeSoftware + porcentajeRed}%, #f97316 ${porcentajeHardware + porcentajeSoftware + porcentajeRed}% 100%)`
-              : '#e8eef5' }}>
+              : 'var(--fondo-suave)' }}>
               <div className="pastel-centro"><strong>{datos.length}</strong><span>Total</span></div>
             </div>
             <div className="leyenda">
@@ -56,20 +85,21 @@ export default function Resumen({
         </div>
         <div className="grafico panel">
           <div className="grafico-cabecera"><h2>Incidencias por prioridad</h2>
-            <span>Datos actuales</span></div>
-          <div className="barras">
-            <div className="barra-fila"><span>Alta</span>
-              <div className="barra-fondo"><i className="barra alta"
-                style={{ width: `${prioridadAlta / maxPrioridad * 100}%` }} /></div>
-              <strong>{prioridadAlta}</strong></div>
-            <div className="barra-fila"><span>Media</span>
-              <div className="barra-fondo"><i className="barra media"
-                style={{ width: `${prioridadMedia / maxPrioridad * 100}%` }} /></div>
-              <strong>{prioridadMedia}</strong></div>
-            <div className="barra-fila"><span>Baja</span>
-              <div className="barra-fondo"><i className="barra baja"
-                style={{ width: `${prioridadBaja / maxPrioridad * 100}%` }} /></div>
-              <strong>{prioridadBaja}</strong></div>
+            <span>Datos de la API</span></div>
+          <div className="rechart-caja">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={datosPrioridad}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--borde)" />
+                <XAxis dataKey="nombre" stroke="var(--texto-suave)" />
+                <YAxis allowDecimals={false} stroke="var(--texto-suave)" />
+                <Tooltip />
+                <Bar dataKey="valor" radius={[4, 4, 0, 0]}>
+                  {datosPrioridad.map(item => (
+                    <Cell key={item.nombre} fill={COLORES_PRIORIDAD[item.nombre]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </section>

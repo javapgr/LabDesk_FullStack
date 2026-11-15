@@ -7,6 +7,8 @@ import { estadoVencimiento, etiquetaVencimiento } from '../utils/vencimiento.js'
 export default function Incidencias({
   filtrados, busqueda, setBusqueda,
   filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
+  filtroCategoria, setFiltroCategoria, filtroResponsable, setFiltroResponsable,
+  filtroAlerta, setFiltroAlerta, limpiarFiltros,
   actualizarEstado, editar, eliminar, abrirNueva,
   mostrarFormulario, form, cambiar, guardar, cancelar, editando, exportarCsv,
   laboratorios, errorForm, guardando, cargando,
@@ -27,7 +29,7 @@ export default function Incidencias({
         <section className="panel panel-incidencias">
           <div className="cabecera-lista"><h2>Incidencias recientes</h2>
             <span>{filtrados.length} mostradas</span></div>
-          <div className="filtros">
+          <div className="filtros filtros-avanzados">
             <input placeholder="Buscar por título o descripción..."
               value={busqueda} onChange={e => setBusqueda(e.target.value)} />
             <select value={filtroEstado} onChange={e => setFiltroEstado(e.target.value)}>
@@ -42,6 +44,22 @@ export default function Incidencias({
               <option value="media">Media</option>
               <option value="alta">Alta</option>
             </select>
+            <select value={filtroCategoria} onChange={e => setFiltroCategoria(e.target.value)}>
+              <option value="todas">Todas las categorías</option>
+              <option value="hardware">Hardware</option>
+              <option value="software">Software</option>
+              <option value="red">Red / Internet</option>
+              <option value="impresora">Impresora</option>
+            </select>
+            <input placeholder="Filtrar por responsable..."
+              value={filtroResponsable}
+              onChange={e => setFiltroResponsable(e.target.value)} />
+            <select value={filtroAlerta} onChange={e => setFiltroAlerta(e.target.value)}>
+              <option value="todas">Todas las alertas</option>
+              <option value="vencida">Vencidas</option>
+              <option value="proxima">Próximas a vencer</option>
+            </select>
+            <button type="button" onClick={limpiarFiltros}>Limpiar filtros</button>
           </div>
           {cargando && <p className="sin-datos">Cargando incidencias…</p>}
           <div className="lista">

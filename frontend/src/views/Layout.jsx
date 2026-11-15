@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTema } from '../controllers/useTema.js'
 
 const RUTAS = {
   resumen: 'Resumen',
@@ -15,6 +16,7 @@ function iniciales(nombre = '') {
 
 export default function Layout({ vista, onNavegar, error, usuario, onSalir, children }) {
   const [menuAbierto, setMenuAbierto] = useState(false)
+  const { tema, alternarTema } = useTema()
   const nombre = (usuario?.nombre || usuario?.username || 'Usuario')
     .replace(/\s+LabDesk\b/gi, '').trim() || 'Usuario'
 
@@ -65,7 +67,11 @@ export default function Layout({ vista, onNavegar, error, usuario, onSalir, chil
               onClick={() => setMenuAbierto(abierto => !abierto)}>☰</button>
             <span className="ruta">{RUTAS[vista]}</span>
           </div>
-          <div className="acciones-superiores"><span className="estado-api">● API conectada</span>
+          <div className="acciones-superiores">
+            <button className="boton-tema" type="button" onClick={alternarTema}>
+              {tema === 'oscuro' ? 'Modo claro' : 'Modo oscuro'}
+            </button>
+            <span className="estado-api">● API conectada</span>
             <span className="avatar avatar-pequeno">{iniciales(nombre)}</span>
           </div>
         </div>
