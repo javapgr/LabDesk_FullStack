@@ -1,8 +1,8 @@
 export default function Resumen({
   datos, pendientes, proceso, resueltos, vencidas, porcentajeResolucion,
   prioridadAlta, prioridadMedia, prioridadBaja, maxPrioridad,
-  hardware, software, red, maxEstado, totalCategorias,
-  porcentajeHardware, porcentajeSoftware,
+  hardware, software, red, impresora, maxEstado, totalCategorias,
+  porcentajeHardware, porcentajeSoftware, porcentajeRed,
 }) {
   return (
     <>
@@ -42,7 +42,7 @@ export default function Resumen({
             <span>Total: {datos.length}</span></div>
           <div className="pastel-contenido">
             <div className="pastel" style={{ background: totalCategorias
-              ? `conic-gradient(#8b5cf6 0 ${porcentajeHardware}%, #ec4899 ${porcentajeHardware}% ${porcentajeHardware + porcentajeSoftware}%, #06b6d4 ${porcentajeHardware + porcentajeSoftware}% 100%)`
+              ? `conic-gradient(#8b5cf6 0 ${porcentajeHardware}%, #ec4899 ${porcentajeHardware}% ${porcentajeHardware + porcentajeSoftware}%, #06b6d4 ${porcentajeHardware + porcentajeSoftware}% ${porcentajeHardware + porcentajeSoftware + porcentajeRed}%, #f97316 ${porcentajeHardware + porcentajeSoftware + porcentajeRed}% 100%)`
               : '#e8eef5' }}>
               <div className="pastel-centro"><strong>{datos.length}</strong><span>Total</span></div>
             </div>
@@ -50,6 +50,7 @@ export default function Resumen({
               <span><i className="punto hardware" />Hardware <strong>{hardware}</strong></span>
               <span><i className="punto software" />Software <strong>{software}</strong></span>
               <span><i className="punto red" />Red <strong>{red}</strong></span>
+              <span><i className="punto impresora" />Impresora <strong>{impresora}</strong></span>
             </div>
           </div>
         </div>

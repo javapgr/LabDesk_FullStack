@@ -47,6 +47,7 @@ export default function FormularioIncidencia({
             <option value="hardware">Hardware</option>
             <option value="software">Software</option>
             <option value="red">Red / Internet</option>
+            <option value="impresora">Impresora</option>
           </select></label>
           <label>Prioridad<select name="prioridad" value={form.prioridad}
             onChange={cambiar} disabled={guardando}>

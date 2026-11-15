@@ -1,6 +1,7 @@
 import FormularioIncidencia from './FormularioIncidencia.jsx'
 import DetalleIncidencia from './DetalleIncidencia.jsx'
 import { formatearFecha } from '../utils/fechas.js'
+import { iconoCategoria, etiquetaCategoria } from '../utils/iconosCategoria.js'
 import { estadoVencimiento, etiquetaVencimiento } from '../utils/vencimiento.js'
 
 export default function Incidencias({
@@ -50,9 +51,16 @@ export default function Incidencias({
             {filtrados.map(item => {
               const alerta = estadoVencimiento(item)
               const etiqueta = etiquetaVencimiento(alerta)
+              const icono = iconoCategoria(item.categoria)
               return (
                 <article className={`incidencia${alerta ? ` alerta-${alerta}` : ''}`}
                   key={item.id}>
+                  <div className="incidencia-cuerpo">
+                    {icono && (
+                      <img className="icono-categoria" src={icono}
+                        alt={etiquetaCategoria(item.categoria)} />
+                    )}
+                    <div className="incidencia-info">
                   <div className="item-top"><h3>{item.titulo}</h3>
                     <span className={`prioridad ${item.prioridad}`}>{item.prioridad}</span>
                   </div>
@@ -61,12 +69,14 @@ export default function Incidencias({
                   )}
                   <p>{item.descripcion}</p>
                   <div className="item-meta">
-                    <span>{item.categoria}</span>
+                    <span>{etiquetaCategoria(item.categoria)}</span>
                     <span>{item.aula}</span>
                     <span>{item.responsable || 'Sin responsable'}</span>
                     <span>{item.ubicacion || 'Sin ubicación'}</span>
                     <span>Límite: {formatearFecha(item.fecha_limite)}</span>
                     <span>ID #{item.id}</span>
+                  </div>
+                    </div>
                   </div>
                   <div className="item-acciones">
                     <select aria-label="Cambiar estado" value={item.estado}

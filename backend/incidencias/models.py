@@ -19,6 +19,7 @@ class Incidencia(models.Model):
         ('hardware', 'Hardware'),
         ('software', 'Software'),
         ('red', 'Red / Internet'),
+        ('impresora', 'Impresora'),
     ]
     PRIORIDADES = [
         ('baja', 'Baja'),

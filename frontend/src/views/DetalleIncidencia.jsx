@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { crearComentario, listarComentarios } from '../services/comentariosApi.js'
 import { formatearFecha } from '../utils/fechas.js'
+import { iconoCategoria, etiquetaCategoria } from '../utils/iconosCategoria.js'
 import { estadoVencimiento, etiquetaVencimiento } from '../utils/vencimiento.js'
 
 export default function DetalleIncidencia({ incidencia, onCerrar, onEditar }) {
@@ -64,7 +65,14 @@ export default function DetalleIncidencia({ incidencia, onCerrar, onEditar }) {
         </div>
 
         <div className="detalle-cabecera">
-          <h3>{incidencia.titulo}</h3>
+          <div className="detalle-titulo">
+            {iconoCategoria(incidencia.categoria) && (
+              <img className="icono-categoria icono-detalle"
+                src={iconoCategoria(incidencia.categoria)}
+                alt={etiquetaCategoria(incidencia.categoria)} />
+            )}
+            <h3>{incidencia.titulo}</h3>
+          </div>
           <span className={`prioridad ${incidencia.prioridad}`}>{incidencia.prioridad}</span>
         </div>
         {etiqueta && (
@@ -75,7 +83,7 @@ export default function DetalleIncidencia({ incidencia, onCerrar, onEditar }) {
 
         <dl className="detalle-datos">
           <div><dt>Estado</dt><dd>{incidencia.estado}</dd></div>
-          <div><dt>Categoría</dt><dd>{incidencia.categoria}</dd></div>
+          <div><dt>Categoría</dt><dd>{etiquetaCategoria(incidencia.categoria)}</dd></div>
           <div><dt>Aula</dt><dd>{incidencia.aula || '—'}</dd></div>
           <div><dt>Responsable</dt><dd>{incidencia.responsable || '—'}</dd></div>
           <div><dt>Ubicación</dt><dd>{incidencia.ubicacion || '—'}</dd></div>

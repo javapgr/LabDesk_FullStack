@@ -136,6 +136,15 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #cbd5e1
 .incidencia { border: 1px solid #e1e8ef; border-radius: 12px; padding: 15px;
   transition: .2s ease; }
 .incidencia:hover { box-shadow: 0 3px 10px #1d4ed80d; }
+.incidencia-cuerpo { display: flex; gap: 14px; align-items: flex-start; }
+.incidencia-info { flex: 1; min-width: 0; }
+.icono-categoria { flex: 0 0 auto; width: 64px; height: 64px; object-fit: contain;
+  background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px; }
+.icono-detalle { width: 48px; height: 48px; }
+.detalle-titulo { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.detalle-titulo h3 { margin: 0; }
+.punto.impresora { background: #f97316; }
+.barra.impresora { background: #f97316; }
 .item-top, .item-meta, .item-acciones { display: flex; gap: 9px; align-items: center;
   justify-content: space-between; }
 .item-top h3 { margin: 0; font-size: 16px; }
@@ -175,7 +184,7 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #cbd5e1
 .item-acciones button:first-of-type { margin-left: auto; }
 .peligro { color: #a52424; }
 .sin-datos { text-align: center; padding: 20px; }
-.configuracion { max-width: 760px; margin: 0 auto; }
+.configuracion { width: 100%; max-width: none; }
 .configuracion-cabecera { display: flex; justify-content: space-between; gap: 20px;
   align-items: flex-start; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
 .configuracion-cabecera h2 { margin-bottom: 7px; }

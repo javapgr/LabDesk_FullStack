@@ -11,9 +11,9 @@ export default function Panel({ usuario, onSalir }) {
     filtroEstado, setFiltroEstado, filtroPrioridad, setFiltroPrioridad,
     error, errorForm, mostrarFormulario, cargando, guardando, detalle,
     filtrados, pendientes, resueltos, proceso, vencidas, porcentajeResolucion,
-    prioridadAlta, prioridadMedia, prioridadBaja, hardware, software, red,
+    prioridadAlta, prioridadMedia, prioridadBaja, hardware, software, red, impresora,
     maxEstado, maxPrioridad, totalCategorias,
-    porcentajeHardware, porcentajeSoftware,
+    porcentajeHardware, porcentajeSoftware, porcentajeRed,
     abrirNueva, cambiar, guardar, editar, cancelar, actualizarEstado, eliminar,
     exportarCsv, abrirDetalle, cerrarDetalle,
   } = useIncidencias()
@@ -29,9 +29,10 @@ export default function Panel({ usuario, onSalir }) {
           vencidas={vencidas} porcentajeResolucion={porcentajeResolucion}
           prioridadAlta={prioridadAlta} prioridadMedia={prioridadMedia}
           prioridadBaja={prioridadBaja} maxPrioridad={maxPrioridad}
-          hardware={hardware} software={software} red={red}
+          hardware={hardware} software={software} red={red} impresora={impresora}
           maxEstado={maxEstado} totalCategorias={totalCategorias}
           porcentajeHardware={porcentajeHardware} porcentajeSoftware={porcentajeSoftware}
+          porcentajeRed={porcentajeRed}
         />
       )}
       {vista === 'incidencias' && (
